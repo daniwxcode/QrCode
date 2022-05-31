@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>QrCode.Domain</RootNamespace>
+    <AssemblyName>QrCode.Domain</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Catalog\" />
+  </ItemGroup>
+
+</Project>
