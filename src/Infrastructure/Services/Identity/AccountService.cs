@@ -98,7 +98,10 @@ namespace QrCode.Infrastructure.Services.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return await Result<string>.FailAsync(message: _localizer["User Not Found"]);
-            var filePath = _uploadService.UploadAsync(request);
+            (string dbpath, string fullPth) result = new();
+            result = _uploadService.UploadAsync(request);
+
+            var filePath = result.dbpath;
             user.ProfilePictureDataUrl = filePath;
             var identityResult = await _userManager.UpdateAsync(user);
             var errors = identityResult.Errors.Select(e => _localizer[e.Description].ToString()).ToList();

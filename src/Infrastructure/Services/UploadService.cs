@@ -2,14 +2,16 @@
 using QrCode.Application.Interfaces.Services;
 using QrCode.Application.Requests;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace QrCode.Infrastructure.Services
 {
     public class UploadService : IUploadService
     {
-        public string UploadAsync(UploadRequest request)
+       
+        public (string dbpath,string fullpath) UploadAsync(UploadRequest request)
         {
-            if (request.Data == null) return string.Empty;
+            if (request.Data == null) return (string.Empty,string.Empty);
             var streamData = new MemoryStream(request.Data);
             if (streamData.Length > 0)
             {
@@ -31,11 +33,12 @@ namespace QrCode.Infrastructure.Services
                 {
                     streamData.CopyTo(stream);
                 }
-                return dbPath;
+
+                return (dbPath,fullPath) ;
             }
             else
             {
-                return string.Empty;
+                return (string.Empty,string.Empty);
             }
         }
 

@@ -37,22 +37,22 @@ else
         </ToolBarContent>
         <HeaderContent>
            @* <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="documentIdField">@_localizer["Id"]</MudTableSortLabel></MudTh>*@
-            <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="documentTitleField">@_localizer["Title"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="documentTitleField">@_localizer["Réquistion"]</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="documentDocumentTypeField">@_localizer["Document Type"]</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="documentOwnerField">@_localizer["Owner"]</MudTableSortLabel></MudTh>
             <MudTh Style="text-align:right">@_localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
-           @* <MudTd DataLabel="Id">@context.Id</MudTd>
-            <MudTd DataLabel="Title">
-                <MudHighlighter Text="@context.Title" HighlightedText="@_searchString" />
-            </MudTd>*@
+           @* <MudTd DataLabel="Id">@context.Id</MudTd>*@
+            <MudTd DataLabel="Réquistion">
+                <MudHighlighter Text="@context.Requisition" HighlightedText="@_searchString" />
+            </MudTd>
             
             <MudTd DataLabel="DocumentType">
                 <MudHighlighter Text="@context.DocumentType" HighlightedText="@_searchString" />
             </MudTd>
            
-            @*<MudTd DataLabel="Owner">
+            <MudTd DataLabel="Owner">
                 @if (context.CreatedBy == CurrentUserId)
                     {
                     <MudButton Variant="Variant.Filled"
@@ -64,7 +64,7 @@ else
                         @_localizer["you"]
                     </MudButton>
                     }
-            </MudTd>*@
+            </MudTd>
             <MudTd DataLabel="Actions" Style="text-align: right">
                 @if (_canEditDocuments || _canDeleteDocuments || _canViewDocumentExtendedAttributes)
                     {

@@ -224,6 +224,7 @@ namespace QrCode.Server.Extensions
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IUploadService, UploadService>();
+            services.AddTransient<IStampService, StampService>();
             services.AddTransient<IAuditService, AuditService>();
             services.AddScoped<IExcelService, ExcelService>();
             return services;

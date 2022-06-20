@@ -40,36 +40,43 @@ namespace QrCode.Application.Features.Documents.Commands.AddEdit
 
     internal class AddEditDocumentCommandHandler : IRequestHandler<AddEditDocumentCommand, Result<int>>
     {
+        private readonly IStampService _stampService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork<int> _unitOfWork;
         private readonly IUploadService _uploadService;
         private readonly IStringLocalizer<AddEditDocumentCommandHandler> _localizer;
 
-        public AddEditDocumentCommandHandler(IUnitOfWork<int> unitOfWork, IMapper mapper, IUploadService uploadService, IStringLocalizer<AddEditDocumentCommandHandler> localizer)
+        public AddEditDocumentCommandHandler(IUnitOfWork<int> unitOfWork, IMapper mapper, IUploadService uploadService, IStringLocalizer<AddEditDocumentCommandHandler> localizer, IStampService stampService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _uploadService = uploadService;
             _localizer = localizer;
+            _stampService = stampService;
         }
 
         public async Task<Result<int>> Handle(AddEditDocumentCommand command, CancellationToken cancellationToken)
         {
+            (string dbpath, string fullpath) result = new();
             var uploadRequest = command.UploadRequest;
             if (uploadRequest != null)
             {
                 uploadRequest.FileName = $"D-{Guid.NewGuid()}{uploadRequest.Extension}";
             }
-
+           
             if (command.Id == 0)
             {
                 var doc = _mapper.Map<Document>(command);
                 if (uploadRequest != null)
                 {
-                    doc.URL = _uploadService.UploadAsync(uploadRequest);
+                    
+                    result= _uploadService.UploadAsync(uploadRequest);
+                    doc.URL = result.dbpath;
                 }
                 await _unitOfWork.Repository<Document>().AddAsync(doc);
                 await _unitOfWork.Commit(cancellationToken);
+
+                await _stampService.StampQrCodeAsync(uploadRequest,result.fullpath, command.DocumentTypeId);
                 return await Result<int>.SuccessAsync(doc.Id, _localizer["Document Saved"]);
             }
             else
@@ -81,7 +88,9 @@ namespace QrCode.Application.Features.Documents.Commands.AddEdit
                     doc.IsPublic = command.IsPublic;
                     if (uploadRequest != null)
                     {
-                        doc.URL = _uploadService.UploadAsync(uploadRequest);
+                        result = _uploadService.UploadAsync(uploadRequest);
+                        doc.URL = result.dbpath;
+                      
                     }
                     doc.DocumentTypeId = (command.DocumentTypeId == 0) ? doc.DocumentTypeId : command.DocumentTypeId;
                     await _unitOfWork.Repository<Document>().UpdateAsync(doc);
