@@ -147,6 +147,9 @@
   <data name="Home" xml:space="preserve">
     <value>Maison</value>
   </data>
+  <data name="My Document Store" xml:space="preserve">
+    <value>Mes Documents</value>
+  </data>
   <data name="Personal" xml:space="preserve">
     <value>Renseignements personnels</value>
   </data>

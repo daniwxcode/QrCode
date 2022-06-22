@@ -29,12 +29,14 @@
         <MudListSubheader Class="mt-2 mb-n2">@_localizer["Document Management"]</MudListSubheader>
         @if (_canViewDocuments)
         {
-            <MudNavLink Href="/document-store" Icon="@Icons.Material.Outlined.AttachFile">
-                @_localizer["Document Store"]
+            <MudNavLink Href="/mydocument-store" Icon="@Icons.Material.Outlined.AttachFile">
+                @_localizer["My Document Store"]
             </MudNavLink>
         }
         @if (_canViewDocumentTypes)
-        {
+        { <MudNavLink Href="/document-store" Icon="@Icons.Material.Outlined.AttachFile">
+                @_localizer["Document Store"]
+            </MudNavLink>
             <MudNavLink Href="/document-types" Icon="@Icons.Material.Outlined.FileCopy">
                 @_localizer["Document Types"]
             </MudNavLink>
